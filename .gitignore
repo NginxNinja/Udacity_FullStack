@@ -1,0 +1,8 @@
+.pytest_cache
+.pytest_cache/*
+fullstack_nanodegree*
+ubuntu-bionic-18.04-cloudimg-console.log
+__pycache__
+*.pyc
+.vagrant
+.vscode
