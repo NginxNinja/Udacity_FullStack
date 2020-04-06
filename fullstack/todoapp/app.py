@@ -22,6 +22,17 @@ class Todo(db.Model):
 
 # db.create_all() //This method can only be used if not using the Flask-Migrate library.
 
+@app.route('/todo/<todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    try:
+        Todo.query.filter_by(id=todo_id).delete()
+        db.session.commit()
+    except:
+        db.session.rollback()
+    finally:
+        db.session.close()
+    return jsonify({ 'success': True })
+
 @app.route('/todo/create', methods=['POST'])
 def create_todo():
     error = False
@@ -31,6 +42,8 @@ def create_todo():
         todo = Todo(description=description)
         db.session.add(todo)
         db.session.commit()
+        body['id'] = todo.id
+        body['completed'] = todo.completed
         body['description'] = todo.description
     except:
         db.session.rollback()

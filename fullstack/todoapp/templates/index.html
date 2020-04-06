@@ -10,7 +10,7 @@
         list-style: none;
         padding: 0;
         margin: 0;
-        width: 300px;
+        width: 200px;
         }
         li {
           clear: both;
@@ -42,10 +42,28 @@
     <div id="error" class="hidden">Something went wrong!</div>
     <ul id="todo">
         {% for d in data %}
-        <li><input class="check-completed" data-id="{{ d.id }}" type="checkbox" {% if d.completed %} checked {% endif %} />{{d.description}}</li>
+        <li>
+          <input class="check-completed" data-id="{{ d.id }}" type="checkbox" {% if d.completed %} checked {% endif %} />
+          {{d.description}}
+          <button class="delete-button" data-id="{{ d.id }}">&cross;</button>
+        </li>
         {% endfor %}
     </ul>
     <script>
+      const deleteBtns = document.querySelectorAll('.delete-button');
+      for(let i = 0; i < deleteBtns.length; i++){
+        const btn = deleteBtns[i];
+        btn.onclick = function(e){
+          const todoId = e.target.dataset['id'];
+          fetch('/todo/' + todoId, {
+            method: 'DELETE'
+          })
+          .then(function(){
+            const item = e.target.parentElement;
+            item.remove();
+          })
+        }
+      }
       const checkboxes = document.querySelectorAll('.check-completed');
       for(let i = 0; i < checkboxes.length; i++){
         const checkbox = checkboxes[i];
@@ -70,12 +88,15 @@
           })
         }
       }
+      const descInput = document.getElementById('description');
       document.getElementById('form').onsubmit = function(e){
           e.preventDefault();
+          const desc = descInput.value;
+          descInput.value = '';
           fetch('/todo/create', {
               method: 'POST',
               body: JSON.stringify({
-                  'description': document.getElementById('description').value
+                  'description': desc
               }),
               headers: {
                   'Content-Type': 'application/json'
@@ -86,13 +107,35 @@
           })
           .then(function(jsonResponse){
               console.log(jsonResponse);
-              const liItem = document.createElement('LI');
+              // The updated version of adding the checkbox and delete button.
+              const li = document.createElement('li');
+              const checkbox = document.createElement('input');
+              checkbox.className = 'check-completed';
+              checkbox.type = 'checkbox';
+              checkbox.setAttribute('data-id', jsonResponse.id);
+              li.appendChild(checkbox);
+
+              const text = document.createTextNode(' ' + jsonResponse.description);
+              li.appendChild(text);
+
+              const deleteBtn = document.createElement('button');
+              deleteBtn.className = 'delete-button';
+              deleteBtn.setAttribute('data-id', jsonResponse.id);
+              deleteBtn.innerHTML = '&cross;';
+              li.appendChild(deleteBtn);
+
+              document.getElementById('todo').appendChild(li);
+              document.getElementById('error').className = 'hidden';
+
+              // The original version
+              /* const liItem = document.createElement('LI');
               liItem.innerHTML = jsonResponse['description'];
               document.getElementById('todo').appendChild(liItem);
-              document.getElementById('error').className = 'hidden';
+              document.getElementById('error').className = 'hidden'; */
           })
           .catch(function(){
-              document.getElementById('error').className = '';
+            console.error('Error occured.');
+            document.getElementById('error').className = '';
           })
       }
     </script>
