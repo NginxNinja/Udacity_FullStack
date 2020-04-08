@@ -50,6 +50,7 @@
         {% endfor %}
     </ul>
     <script>
+      /* Delete Functionality */
       const deleteBtns = document.querySelectorAll('.delete-button');
       for(let i = 0; i < deleteBtns.length; i++){
         const btn = deleteBtns[i];
@@ -63,7 +64,9 @@
             item.remove();
           })
         }
-      }
+      } /* End of Delete Functionality */
+      
+      /* Checkbox Functionality */
       const checkboxes = document.querySelectorAll('.check-completed');
       for(let i = 0; i < checkboxes.length; i++){
         const checkbox = checkboxes[i];
@@ -87,7 +90,9 @@
             document.getElementById('error').className = '';
           })
         }
-      }
+      } /* End of Checkbox Functionality */
+
+      /* New Entry Functionality */
       const descInput = document.getElementById('description');
       document.getElementById('form').onsubmit = function(e){
           e.preventDefault();
@@ -137,7 +142,7 @@
             console.error('Error occured.');
             document.getElementById('error').className = '';
           })
-      }
+      } /* End of New Entry Functionality */
     </script>
 </body>
 </html>

@@ -129,8 +129,16 @@ Vagrant.configure("2") do |config|
   # sudo apt -y upgrade postgresql
   # python3.8 -m pip install Flask-Migrate
   # python3 -m pip install Flask-Migrate
+
+  # Documentations
   # flask db init //Run this command after installing Python's Flask-Migrate library
   # flask db migrate //Detects the model changes to be made, and creates a migration file with upgrade and downgrade logic set up. Replaces use of db.create_all(). Drop first the DB if already exists before running this command; dropdb <DBname> && createdb <DBname>
   # flask db upgrade //Run this command after each migrate. Runs the upgrade command in the migration file, to apply the migration.
   # flask db downgrade //(If necessary) Runs the downgrade command in the migration file, to roll back the migration.
+  # One-to-Many Implementation:
+  # ND004 C01 L07 11 Set Up A One-To-Many Relationship Between Todos And Todo Lists - https://www.youtube.com/watch?v=5Bl9RtsEtAY
+  # ND004 C01 L07 11.1 Set Up A One-To-Many Relationship Between Todos And Todo Lists - https://www.youtube.com/watch?v=Tord65BkCkw
+  # You can do the shortcut of this process by following the structure from this file: 06ed814d7b97_.py
+  # Important: We always want to use migrations in order to update the data schema.
+  # We can establish maintenance windows during times when the app isn't well used and manipulate production data then, in order to prepare the data before a schema migration, and change it after a schema migration.
 end

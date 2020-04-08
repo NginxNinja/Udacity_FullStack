@@ -11,14 +11,30 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
+class TodoList(db.Model):
+    ''' This is the Parent Model '''
+    __tablename__ = 'todolist'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
+    
+    # 1st param = Class name passed as String
+    # 2nd param = customize name for referencing into the Child Table
+    # 3rd param = a method of Relationship Loading Technique
+    todos = db.relationship('Todo', backref='list', lazy=True)
+
+    def __repr__(self):
+        return f'<TodoList id:{self.id} name:{self.name}>'
+
 class Todo(db.Model):
+    ''' This is the Child Model '''
     __tablename__ = 'todo'
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(), nullable=False)
     completed = db.Column(db.Boolean, nullable=False, default=False)
+    list_id = db.Column(db.Integer, db.ForeignKey('todolist.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Todo {self.id} {self.description}>'
+        return f'<Todo id:{self.id} {self.description} list:{self.list_id}>'
 
 # db.create_all() //This method can only be used if not using the Flask-Migrate library.
 
@@ -56,7 +72,7 @@ def create_todo():
     else:
         return jsonify(body)
 
-''' # Original version without handling sessions in controllers using try/except/finally blocks
+''' # The Original version without handling sessions in controllers using try/except/finally blocks
 def create_todo():
     #description = request.form.get('description', '') // the original request.form object without calling JSON
     description = request.get_json()['description']
