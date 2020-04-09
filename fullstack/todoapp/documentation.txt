@@ -1,0 +1,65 @@
+flask db init //Run this command after installing Python's Flask-Migrate library
+flask db migrate //Detects the model changes to be made, and creates a migration file with upgrade and downgrade logic set up. Replaces use of db.create_all(). Drop first the DB if already exists before running this command; dropdb <DBname> && createdb <DBname>
+flask db upgrade //Run this command after each migrate. Runs the upgrade command in the migration file, to apply the migration.
+flask db downgrade //(If necessary) Runs the downgrade command in the migration file, to roll back the migration.
+
+One-to-Many Implementation:
+ND004 C01 L07 11 Set Up A One-To-Many Relationship Between Todos And Todo Lists - https://www.youtube.com/watch?v=5Bl9RtsEtAY
+ND004 C01 L07 11.1 Set Up A One-To-Many Relationship Between Todos And Todo Lists - https://www.youtube.com/watch?v=Tord65BkCkw
+You can do the shortcut of this process by following the structure from this file: 06ed814d7b97_.py
+Important: We always want to use migrations in order to update the data schema.
+We can establish maintenance windows during times when the app isn't well used and manipulate production data then, in order to prepare the data before a schema migration, and change it after a schema migration.
+ND004 C01 L07 12.2 CRUD On List Of Todos - https://www.youtube.com/watch?v=Aav6ZYXrZSs
+ND004 C01 L07 13 CRUD On List Of Todos Part 2 - https://www.youtube.com/watch?v=n_1y418osKo
+
+Many-To-Many Relationship:
+* In one-to-many and one-to-one, the foreign key is established on the child model.
+* In many-to-many, a special *association table* exists to join the two tables together, storing two foreign keys that link to the two foreign tables that have a relationship with each other.
+
+ND004 C01 L07 14.2 Model Many-To-Many Relationships - https://www.youtube.com/watch?v=Xo_fRKPj2fM
+To set up a many-to-many in SQLALchemy, we:
+* Define an association table using *Table* from SQLAlchemy
+Set the multiple foreign keys in the association table
+Map the association table to a parent model using the option *secondary* in *db.relationship*
+
+Example with Order, Product, and Order Item
+
+order_items = db.Table('order_items',
+    db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True),
+    db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True)
+)
+
+class Order(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  status = db.Column(db.String(), nullable=False)
+  products = db.relationship('Product', secondary=order_items,
+      backref=db.backref('orders', lazy=True))
+
+class Product(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(), nullable=False)
+
+ND004 C01 L07 14.3 Model Many-To-Many Relationships - https://www.youtube.com/watch?v=17FW9tAaDvA
+Source code: app_db_m2m.py
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://udacitystudios@localhost:5432/example'
+db = SQLAlchemy(app)
+
+order_items = db.Table('order_items',
+    db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True),
+    db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True)
+)
+
+class Order(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  status = db.Column(db.String(), nullable=False)
+  products = db.relationship('Product', secondary=order_items,
+      backref=db.backref('orders', lazy=True))
+
+class Product(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(), nullable=False)

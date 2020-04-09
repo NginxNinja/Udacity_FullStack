@@ -100,12 +100,37 @@ def set_completed_todo(todo_id):
         db.session.close()
     return redirect(url_for('index'))
 
+@app.route('/lists/<list_id>')
+def get_list_todos(list_id):
+    return render_template(
+        'index.html',
+        lists = TodoList.query.all(),
+        active_list = TodoList.query.get(list_id),
+        todos = Todo.query.filter_by(list_id=list_id).order_by('id').all()
+    )
+
+@app.route('/')
+def index():
+    ''' Redirect the homepage into the TodoLists view. '''
+    return redirect(url_for('get_list_todos', list_id=1))
+
+''' # The original version when accessing the Todo model.
 @app.route('/')
 def index():
     return render_template('index.html', data=Todo.query.order_by('id').all())
+'''
 
 if __name__ == '__main__':
     # host param - Set this to '0.0.0.0' to have the server available externally as well. For the Vagrant VMbox forwarded_port to be accessible to the Host browser via localhost.
     # port param - the port of the webserver. Defaults to 5000 or the port defined in the SERVER_NAME config variable if present.
     # debug param - As such to enable just the interactive debugger without the code reloading, you have to invoke run() with debug=True and use_reloader=False.
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+'''
+Challenge yourself (optional) to complete the rest of the To-Do Lists App!
+Finish implementing the ability to create, update (mark complete), and delete To-Do Lists on the app.
+
+* Create a List: Implement a Create List form above the list of To-Do Lists, much like we did for an individual To-Do item, to enable the user to create Lists.
+* Update a List (and all of its children items): Implement a Checkbox next to a To-Do List, and allow the user to mark an entire list as completed. When the list is marked completed, implement the controller so that all of its child items are also marked as completed. (hint: you can use *list.todos* and what we know about bulk deletions off the *Query* object to bulk delete all todo items for a given list).
+* Delete a List (and all of its children items): Implement an "x" remove button next to each List, and allow a user to click it in order to remove a List. When a list is removed, all of its child items should also be removed. We can set the *cascade* option to do this. See the *SQLAlchemy Docs on Cascades* - https://docs.sqlalchemy.org/en/13/orm/cascades.html. (Hint: you'll want to look into the *all* and *delete-orphan* cascade options).
+'''
