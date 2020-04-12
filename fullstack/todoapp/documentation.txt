@@ -23,7 +23,7 @@ Set the multiple foreign keys in the association table
 Map the association table to a parent model using the option *secondary* in *db.relationship*
 
 Example with Order, Product, and Order Item
-
+-------------------------
 order_items = db.Table('order_items',
     db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True),
     db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True)
@@ -38,10 +38,12 @@ class Order(db.Model):
 class Product(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(), nullable=False)
+-------------------------
 
 ND004 C01 L07 14.3 Model Many-To-Many Relationships - https://www.youtube.com/watch?v=17FW9tAaDvA
 Source code: app_db_m2m.py
 
+-------------------------
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -63,3 +65,4 @@ class Order(db.Model):
 class Product(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(), nullable=False)
+  -------------------------
