@@ -176,7 +176,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': False,
             'error': 422,
-            'message': 'unprocessable',
+            'message': 'unprocessable'
         }), 422
 
     @app.errorhandler(400)
@@ -184,15 +184,15 @@ def create_app(test_config=None):
         return jsonify({
             'success': False,
             'error': 400,
-            'message': 'bad request',
+            'message': 'bad request'
         }), 400
 
     @app.errorhandler(405)
-    def not_found(error):
+    def method_not_allowed(error):
         return jsonify({
             'success': False,
             'error': 405,
-            'message': 'method not allowed',
+            'message': 'method not allowed'
         }), 405
 
     return app

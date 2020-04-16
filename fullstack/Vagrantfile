@@ -131,4 +131,9 @@ Vagrant.configure("2") do |config|
   # python3 -m pip install Flask-Migrate
   # python3 -m pip install -U flask-cors
   # python3.8 -m pip install -U flask-cors
+
+  # Miscellaneous
+  # Running venv: source venv/Scripts/activate => For Windows in Git Bash
+  # Deactivate cmd in venv: deactivate
+  # postman => dum.kmn2@g dum.kmn2
 end
