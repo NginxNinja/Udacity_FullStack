@@ -1,0 +1,6 @@
+https://dev-r1u0u-k2.auth0.com/authorize?
+  audience=image&
+  response_type=token&
+  client_id=7n4bK5voirX1OCy7vBE86vDsQyTRfclh&
+  redirect_uri=https://127.0.0.1:8080/login-results/
+

@@ -141,8 +141,8 @@ Vagrant.configure("2") do |config|
   #
   # Installing venv folder: python3 -m venv c:\path\to\myenv
   # Running venv: source <venv_folder>/Scripts/activate => For Windows in Git Bash
-  # Running venv: source venv_folder/bin/activate => For Linux Bash
+  # Running venv: source <venv_folder>/bin/activate => For Linux Bash
   # Deactivate cmd in venv: deactivate
-  # postman => dum.kmn2@g dum.kmn2
+  # postman.com => dum.kmn2@g dum.kmn2
   # auth0.com => dum.kmn2@g kP2 => dev-r1u0u-k2.auth0.com
 end
