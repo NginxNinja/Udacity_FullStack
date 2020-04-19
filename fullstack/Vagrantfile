@@ -131,6 +131,7 @@ Vagrant.configure("2") do |config|
   # python3 -m pip install Flask-Migrate
   # python3 -m pip install -U flask-cors
   # python3.8 -m pip install -U flask-cors
+  # python3 -m pip -r </path/to/requirements.txt>
 
   # Miscellaneous
   # Run these commands in CLI for the alternative of this method.
