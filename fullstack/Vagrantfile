@@ -132,13 +132,14 @@ Vagrant.configure("2") do |config|
   # python3 -m pip install -U flask-cors
   # python3.8 -m pip install -U flask-cors
   # python3 -m pip -r </path/to/requirements.txt>
+  # python3 -m pip install bcrypt
 
   # Miscellaneous
   # Run these commands in CLI for the alternative of this method.
   # export FLASK_APP=<filename.py>
   # export FLASK_ENV=development
-  # host param can be run in CLI like this => flask run --host=0.0.0.0
-  # port param can be run in CLI like this => flask run --port=8080
+  # host param can be run in CLI like this => flask run --reload --host=0.0.0.0
+  # port param can be run in CLI like this => flask run --reload --port=8080
   #
   # Installing venv folder: python3 -m venv c:\path\to\myenv
   # Running venv: source <venv_folder>/Scripts/activate => For Windows in Git Bash

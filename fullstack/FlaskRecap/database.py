@@ -1,4 +1,4 @@
-# Initialize the engin
+# Initialize the engine
 import os
 from sqlalchemy import create_engine, Column, String, Integer
 
