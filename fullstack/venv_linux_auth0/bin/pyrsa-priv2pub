@@ -1,4 +1,4 @@
-#!/vagrant/venv_linux_auth0/bin/python3
+#!/vagrant/venv_linux_auth0/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
