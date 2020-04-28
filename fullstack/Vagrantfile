@@ -84,28 +84,45 @@ Vagrant.configure("2") do |config|
   # SHELL
   #
   # 1st Original Shell scripts with having apt-get parameters of 2 levels of quiet param, and yes param
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt install -y make zip unzip
-  #   apt install -y python3.8.*
-  #   apt install -y python3-pip
-  #   python3.8 -m pip install --upgrade pip
-  #   python3 -m pip install --upgrade pip
-  #   apt install -y postgresql
-  #   apt install --upgrade -y postgresql
-  #   apt install -y python3-psycopg2
-  #   python3 -m pip install psycopg2
-  #   python3.8 -m pip install psycopg2
-  #   python3.8 -m pip install flask
-  #   python3 -m pip install flask
-  #   python3.8 -m pip install flask-sqlalchemy
-  #   python3 -m pip install flask-sqlalchemy
-  #   apt install -y python3.8-venv
-  #   apt install -y python3-venv
-  #   python3.8 -m pip install Flask-Migrate
-  #   python3 -m pip install Flask-Migrate
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt -y update
+    # [sudo apt -y upgrade] <== This command is not currently working to Vagrant due to GRUB PC Bootloder. Should use the below command to work.
+    # Work around https://github.com/chef/bento/issues/661
+    # apt-get -qqy upgrade
+    DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+
+    apt install -y make zip unzip
+    apt install -y python3.8.*
+    apt install -y python3-pip
+    python3.8 -m pip install --upgrade pip
+    python3 -m pip install --upgrade pip
+    apt install -y postgresql
+    apt install --upgrade -y postgresql
+    apt install -y python3-psycopg2
+    python3 -m pip install psycopg2
+    python3.8 -m pip install psycopg2
+    python3.8 -m pip install flask
+    python3 -m pip install flask
+    python3.8 -m pip install flask-sqlalchemy
+    python3 -m pip install flask-sqlalchemy
+    apt install -y python3.8-venv
+    apt install -y python3-venv
+    python3.8 -m pip install Flask-Migrate
+    python3 -m pip install Flask-Migrate
+    python3 -m pip install -U flask-cors
+    python3.8 -m pip install -U flask-cors
+    python3 -m pip install bcrypt
+    python -m pip install awscli
+    python -m pip install --upgrade awscli
+  SHELL
 
   # Run these commands after running the vagrant provision
+  # sudo apt -y update
+  # [sudo apt -y upgrade] <== This command is not currently working to Vagrant due to GRUB PC Bootloder. Should use the below command to work.
+  # Work around https://github.com/chef/bento/issues/661
+  # apt-get -qqy upgrade
+  # DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+  #
   # sudo apt install -y make zip unzip
   # sudo apt install -y python3.8.*
   # sudo apt install -y python3-pip
@@ -122,8 +139,6 @@ Vagrant.configure("2") do |config|
   # python3 -m pip install flask-sqlalchemy
   # sudo apt install -y python3.8-venv
   # sudo apt install -y python3-venv
-  # sudo apt -y update
-  # sudo apt -y upgrade
   # sudo apt -y upgrade python3
   # sudo apt -y upgrade python3.8
   # sudo apt -y upgrade postgresql
