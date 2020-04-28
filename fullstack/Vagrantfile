@@ -85,35 +85,57 @@ Vagrant.configure("2") do |config|
   #
   # 1st Original Shell scripts with having apt-get parameters of 2 levels of quiet param, and yes param
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt -y update
+    apt-get -y update
     # [sudo apt -y upgrade] <== This command is not currently working to Vagrant due to GRUB PC Bootloder. Should use the below command to work.
     # Work around https://github.com/chef/bento/issues/661
-    # apt-get -qqy upgrade
+    # apt-get -qqy upgrade == the script below is the original command.
     DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 
     apt install -y make zip unzip
+    apt-get install -y make zip unzip
     apt install -y python3.8.*
+    apt-get install -y python3.8.*
     apt install -y python3-pip
+    apt-get install -y python3-pip
+    apt -y upgrade python3
+    apt-get -y upgrade python3
+    apt -y upgrade python3.8
+    apt-get -y upgrade python3.8
     python3.8 -m pip install --upgrade pip
     python3 -m pip install --upgrade pip
     apt install -y postgresql
+    apt-get install -y postgresql
     apt install --upgrade -y postgresql
+    apt-get install --upgrade -y postgresql
     apt install -y python3-psycopg2
-    python3 -m pip install psycopg2
+    apt-get install -y python3-psycopg2
+    python3 -m pip install psycopg2-binary
     python3.8 -m pip install psycopg2
     python3.8 -m pip install flask
     python3 -m pip install flask
     python3.8 -m pip install flask-sqlalchemy
     python3 -m pip install flask-sqlalchemy
     apt install -y python3.8-venv
+    apt-get install -y python3.8-venv
     apt install -y python3-venv
+    apt-get install -y python3-venv
     python3.8 -m pip install Flask-Migrate
     python3 -m pip install Flask-Migrate
     python3 -m pip install -U flask-cors
     python3.8 -m pip install -U flask-cors
     python3 -m pip install bcrypt
-    python -m pip install awscli
-    python -m pip install --upgrade awscli
+    python3 -m pip install awscli
+    python3.8 -m pip install awscli
+    python3 -m pip install --upgrade awscli
+    python3.8 -m pip install --upgrade awscli
+
+    apt -y update
+    # Work around https://github.com/chef/bento/issues/661
+    # apt-get -qqy upgrade == the script below is not the original one.
+    DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+
+    apt-get -y update
+    DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
   SHELL
 
   # Run these commands after running the vagrant provision
@@ -131,7 +153,7 @@ Vagrant.configure("2") do |config|
   # sudo apt install -y postgresql
   # sudo apt install --upgrade -y postgresql
   # sudo apt install -y python3-psycopg2
-  # python3 -m pip install psycopg2
+  # python3 -m pip install psycopg2-binary
   # python3.8 -m pip install psycopg2
   # python3.8 -m pip install flask
   # python3 -m pip install flask
@@ -148,7 +170,8 @@ Vagrant.configure("2") do |config|
   # python3.8 -m pip install -U flask-cors
   # python3 -m pip -r </path/to/requirements.txt>
   # python3 -m pip install bcrypt
-  # python -m pip install awscli
+  # python3 -m pip install awscli
+  # python3.8 -m pip install awscli
   # python -m pip install --upgrade awscli
 
   # Miscellaneous
